@@ -14,7 +14,7 @@ wheels/
 
 # uv
 .uv/
-uv.lock  # opcional, algunos prefieren commitearlo para reproducibilidad
+uv.lock 
 
 # IDEs
 .vscode/
