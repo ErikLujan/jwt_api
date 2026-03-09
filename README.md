@@ -21,6 +21,7 @@ jwt_api/
 ├── app/
 │   ├── core/
 │   │   ├── config.py        # Configuración centralizada via .env
+│   │   └── redis.py         # Cliente Redis para blacklist de tokens
 │   │   └── security.py      # Dependencias de autenticación y roles
 │   ├── db/
 │   │   ├── base.py          # Base declarativa de SQLAlchemy
