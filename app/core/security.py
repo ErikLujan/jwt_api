@@ -7,6 +7,7 @@ from app.db.deps import get_db
 from app.models.user import User
 from app.service import jwt as jwt_service
 from app.service.auth import get_user_by_email
+from app.service.blacklist import is_blacklisted
 
 bearer_scheme = HTTPBearer()
 
@@ -30,6 +31,10 @@ async def get_current_user(
     **Raises:**
         HTTPException: Si el token es inválido, expirado, o el usuario no existe.
     """
+    token = credentials.credentials
+
+    if await is_blacklisted(token):
+        raise HTTPException(status_code=401, detail="Token invalidado.")
 
     try:
         payload = jwt_service.decode_token(credentials.credentials)
@@ -73,7 +78,6 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
     **Raises:**
         HTTPException: Si la cuenta del usuario está desactivada.
     """
-
     if not current_user.is_active:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
